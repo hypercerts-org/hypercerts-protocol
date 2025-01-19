@@ -38,6 +38,11 @@ jobs:
         run: |
           cat lib/openzeppelin-contracts-upgradeable/package.json
 
+      - name: Debug directory structure
+        run: |
+          ls -la lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/
+          pwd
+
       - name: Log content of lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/MerkleProofUpgradeable.sol
         run: |
           cat lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/MerkleProofUpgradeable.sol
