@@ -58,6 +58,18 @@ jobs:
           echo "\nGit submodule status:"
           git submodule status
 
+      - name: Debug OpenZeppelin version
+        run: |
+          cd lib/openzeppelin-contracts-upgradeable
+          echo "Current git status:"
+          git status
+          echo "\nCurrent commit hash:"
+          git rev-parse HEAD
+          echo "\nCurrent tag:"
+          git describe --tags
+          echo "\nAvailable branches:"
+          git branch -a
+
       - name: Debug directory structure
         run: |
           ls -la lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/
