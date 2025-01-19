@@ -45,19 +45,22 @@ jobs:
           ls -la
           echo "\n2. Submodule status before:"
           git submodule status
-          echo "\n3. Entering submodule:"
+          echo "\n3. Initialize submodules:"
+          git submodule update --init --recursive
+          echo "\n4. Submodule status after init:"
+          git submodule status
+          echo "\n5. Entering submodule:"
           cd lib/openzeppelin-contracts-upgradeable
-          echo "\n4. Remote information:"
+          echo "\n6. Remote information:"
           git remote -v
-          echo "\n5. Available commits:"
+          echo "\n7. Available commits:"
           git log --oneline | head -n 5
-          echo "\n6. Attempting fetch:"
+          echo "\n8. Attempting fetch:"
           git fetch --unshallow || git fetch --all
           cd ../..
 
       - name: Checkout and setup submodules
         run: |
-          git submodule update --init --recursive
           cd lib/openzeppelin-contracts-upgradeable
           git fetch --all --tags --force
           git checkout 2d081f24cac1a867f6f73d512f2022e1fa987854
