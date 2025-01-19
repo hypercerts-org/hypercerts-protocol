@@ -53,18 +53,25 @@ jobs:
           git tag -l
           cd ../..
 
-      - name: Debug submodules
+      - name: Debug submodule state
         run: |
-          echo "Current directory:"
-          pwd
-          echo "\nList .gitmodules content:"
-          cat .gitmodules
-          echo "\nList lib directory:"
-          ls -la lib/
-          echo "\nList openzeppelin directory if it exists:"
-          ls -la lib/openzeppelin-contracts-upgradeable/ || echo "Directory doesn't exist"
-          echo "\nGit submodule status:"
+          echo "1. Current directory structure:"
+          ls -la
+          echo "\n2. Submodule status before:"
           git submodule status
+          echo "\n3. Entering submodule:"
+          cd lib/openzeppelin-contracts-upgradeable
+          echo "\n4. Remote information:"
+          git remote -v
+          echo "\n5. Available commits:"
+          git log --oneline | head -n 5
+          echo "\n6. Attempting fetch:"
+          git fetch --unshallow || git fetch --all
+          echo "\n7. Try checkout:"
+          git checkout 2d081f24cac1a867f6f73d512f2022e1fa987854
+          echo "\n8. Final status:"
+          git status
+          cd ../..
 
       - name: Debug OpenZeppelin version
         run: |
@@ -121,4 +128,3 @@ jobs:
           pnpm test
         # Always run this step so that all linting errors can be seen at once.
         if: always()
-
