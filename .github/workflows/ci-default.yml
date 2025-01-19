@@ -39,11 +39,13 @@ jobs:
         run: |
           cat lib/openzeppelin-contracts-upgradeable/package.json
 
-      - name: Force update submodules
+      - name: Checkout and setup submodules
         run: |
-          git submodule update --init --recursive --force
-          git submodule foreach git fetch --all
-          git submodule foreach git reset --hard origin/HEAD
+          git submodule update --init --recursive
+          cd lib/openzeppelin-contracts-upgradeable
+          git fetch --all --tags
+          git checkout v4.9.6
+          cd ../..
 
       - name: Debug submodules
         run: |
@@ -75,7 +77,8 @@ jobs:
           ls -la lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/
           pwd
 
-      - name: Log content of lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/MerkleProofUpgradeable.sol
+      - name:
+          Log content of lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/MerkleProofUpgradeable.sol
         run: |
           cat lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/MerkleProofUpgradeable.sol
 
