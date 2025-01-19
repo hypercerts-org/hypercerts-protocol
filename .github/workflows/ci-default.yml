@@ -39,20 +39,6 @@ jobs:
         run: |
           cat lib/openzeppelin-contracts-upgradeable/package.json
 
-      - name: Checkout and setup submodules
-        run: |
-          git submodule update --init --recursive
-          cd lib/openzeppelin-contracts-upgradeable
-          git fetch --all --tags --force
-          git checkout 2d081f24cac1a867f6f73d512f2022e1fa987854 
-          cd ../..
-
-      - name: Debug tags
-        run: |
-          cd lib/openzeppelin-contracts-upgradeable
-          git tag -l
-          cd ../..
-
       - name: Debug submodule state
         run: |
           echo "1. Current directory structure:"
@@ -67,10 +53,20 @@ jobs:
           git log --oneline | head -n 5
           echo "\n6. Attempting fetch:"
           git fetch --unshallow || git fetch --all
-          echo "\n7. Try checkout:"
+          cd ../..
+
+      - name: Checkout and setup submodules
+        run: |
+          git submodule update --init --recursive
+          cd lib/openzeppelin-contracts-upgradeable
+          git fetch --all --tags --force
           git checkout 2d081f24cac1a867f6f73d512f2022e1fa987854
-          echo "\n8. Final status:"
-          git status
+          cd ../..
+
+      - name: Debug tags
+        run: |
+          cd lib/openzeppelin-contracts-upgradeable
+          git tag -l
           cd ../..
 
       - name: Debug OpenZeppelin version
