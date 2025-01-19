@@ -44,6 +44,19 @@ jobs:
           git submodule foreach git fetch --all
           git submodule foreach git reset --hard origin/HEAD
 
+      - name: Debug submodules
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "\nList .gitmodules content:"
+          cat .gitmodules
+          echo "\nList lib directory:"
+          ls -la lib/
+          echo "\nList openzeppelin directory if it exists:"
+          ls -la lib/openzeppelin-contracts-upgradeable/ || echo "Directory doesn't exist"
+          echo "\nGit submodule status:"
+          git submodule status
+
       - name: Debug directory structure
         run: |
           ls -la lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/
