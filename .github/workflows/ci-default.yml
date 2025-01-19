@@ -43,6 +43,21 @@ jobs:
         run: |
           git submodule foreach --quiet 'test -d "$name" || (echo "Submodule $name is missing!" && exit 1)'
       
+
+      - name: Inspect directory structure
+        run: |
+          echo "Root directory contents:"
+          ls -la
+          echo "Project directory contents:"
+          ls -la /home/runner/work/hypercerts-protocol/hypercerts-protocol
+          echo "lib directory contents:"
+          ls -la /home/runner/work/hypercerts-protocol/hypercerts-protocol/lib
+
+      - name: Find specific file
+        run: |
+          echo "Searching for MerkleProofUpgradeable.sol..."
+          find /home/runner/work/hypercerts-protocol/hypercerts-protocol -name "MerkleProofUpgradeable.sol" -print
+    
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
 
