@@ -1,115 +1,167 @@
-# hypercerts [![License: Apache 2.0][license-badge]][license] [![Github Actions][gha-badge]][gha]
+# hypercerts [![License: Apache 2.0][license-badge]][license] [![Github Actions][gha-badge]][gha][![Foundry][foundry-badge]][foundry]
 
 [license]: https://opensource.org/license/apache-2-0/
 [license-badge]: https://img.shields.io/badge/License-Apache2.0-blue.svg
 [gha]: https://github.com/hypercerts-org/hypercerts/actions/workflows/ci-default.yml
 [gha-badge]: https://github.com/hypercerts-org/hypercerts/actions/workflows/ci-default.yml/badge.svg
+[foundry]: https://getfoundry.sh/
+[foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
 
-Hypercerts is a tool to build scalable retrospective reward systems for impact.
-For more details, check out our [website](https://hypercerts.org/).
+Hypercerts is a tool to build scalable retrospective reward systems for impact. For more details, check out our
+[website](https://hypercerts.org/).
 
-## Organization
+## Setup
 
-- `/contracts`: Smart contracts (Foundry+Hardhat)
+Create a copy of `.env.example` and rename the copy to `.env`. If your organization already has keys, ask your admin
+where they are.
 
-  - Manually deployed via hardhat tasks
-  - Note: This is not currently on CI/CD
+- `MNEMONIC`: the seed phrase used for deploying the contract and upgrades
+  - Make sure there is sufficient balance in the account for these operations
+  - If you need a new address, you can run `yarn hardhat generate-address`
+- `INFURA_API_KEY`: [Infura](https://www.infura.io/) is used as the gateway.
+- `OPENZEPPELIN_API_KEY` and `OPENZEPPELIN_SECRET_KEY`: [OpenZeppelin Defender](https://defender.openzeppelin.com/) is
+  used for proposing upgrades to the multi-sig.
+- `ETHERSCAN_API_KEY`: [Etherscan](https://etherscan.io/)
+- `OPTIMISTIC_ETHERSCAN_API_KEY`: [Optimism Explorer](https://optimistic.etherscan.io/myapikey)
 
-  | Network      | HypercertMinter (UUPS Proxy)                                                                                                     | Safe                                                                                                                             |
-  | ------------ | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-  | Goerli       | [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://goerli.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07)     | [0x8CD35a62fF56A91485eBF97491612F1552dbc1c9](https://goerli.etherscan.io/address/0x8CD35a62fF56A91485eBF97491612F1552dbc1c9)     |
-  | Sepolia      | [0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941](https://goerli.etherscan.io/address/0xa16DFb32Eb140a6f3F2AC68f41dAd8c7e83C4941)     | TBD                                                                                                                              |
-  | Celo         | [0x16bA53B74c234C870c61EFC04cD418B8f2865959](https://celoscan.io/address/0x16bA53B74c234C870c61EFC04cD418B8f2865959)             | TBD                                                                                                                              |
-  | Optimism     | [0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07](https://optimistic.etherscan.io/address/0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07) | [0x560adA72a80b4707e493cA8c3B7B7528930E7Be5](https://optimistic.etherscan.io/address/0x560adA72a80b4707e493cA8c3B7B7528930E7Be5) |
-  | Base Sepolia | [0xC2d179166bc9dbB00A03686a5b17eCe2224c2704](https://sepolia.basescan.org/address/0xC2d179166bc9dbB00A03686a5b17eCe2224c2704)    | [0xA2Cb9D926b090577AD45fC0F40C753BF369B82Ff](https://sepolia.basescan.org/address/0xA2Cb9D926b090577AD45fC0F40C753BF369B82Ff)    |
-  | Base Sepolia | [0xC2d179166bc9dbB00A03686a5b17eCe2224c2704](https://basescan.org/address/0xC2d179166bc9dbB00A03686a5b17eCe2224c2704)            | [0x1FD06FD7743dB499a2d5bfBeD33A9Dc559a8D360](https://basescan.org/address/0x1FD06FD7743dB499a2d5bfBeD33A9Dc559a8D360)            |
+## Usage
 
-- `/cors-proxy`: CORS proxy for Cloudflare Workers
-  - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-cors-proxy.yml)
-- `/defender`: OpenZeppelin Defender integration
-  - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-defender.yml)
-- `/docs`: documentation (Docusaurus)
-  - [on Fleek](https://hypercerts.on.fleek.co/docs/) - Production build on mainnet
-  - [on Cloudflare](https://testnet.hypercerts.org/docs) - Staging build on Goerli
-- `/frontend`: frontend application (Next.js)
-  - [on Fleek](https://hypercerts.on.fleek.co/) - Production build on mainnet
-  - [on Cloudflare](https://testnet.hypercerts.org) - Staging build on Goerli
-- `/graph`: The Graph integration
-  - [via GitHub actions](https://github.com/hypercerts-org/hypercerts/actions/workflows/deploy-graph.yml)
-  - [Goerli Subgraph](https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-testnet)
-  - [Optimism Subgraph](https://thegraph.com/hosted-service/subgraph/hypercerts-admin/hypercerts-optimism-mainnet)
-- `/sdk`: Hypercerts SDK
-  - Manually published to npm
-- `/utils`: various scripts for operations
-  - Manually run
+Here's a list of the most frequently needed commands.
 
-## Quickstart with Dapp development
+Note that the project is configured to use both Hardhat and Foundry. We typically use Foundry for fast compiles and
+testing. We typically use Hardhat to compile for deployment and to run operational tasks.
 
-### Setup and build the frontend
+### Foundry operations
 
-First, make sure the environment variables are set for `./frontend`.
-Take a look at `./frontend/.env.local.example` for the complete list.
+#### Build
 
-- You can either set these yourself (e.g. in CI/CD)
-- or copy the file to `.env.local` and populate it.
+Build the contracts:
 
-Then do a turbo build of all apps, run the following:
-
-```bash
-yarn install
-yarn build
+```sh
+forge build
 ```
 
-The resulting static site can be found in `./build/`.
+#### Tests
 
-### Running the prod server
+Solidity tests are executed using Foundry Run the tests:
 
-If you've already run the build, you can use `yarn serve:build` to serve the built files
-
-### Running the frontend dev server
-
-To run a dev server that watches for changes across code and Plasmic, run:
-
-```bash
-yarn dev:frontend
+```sh
+forge test
 ```
 
-## E2E Local Development
+#### Gas Usage
 
-We now have a mostly localized development infrastructure that can be used when
-developing the Dapp. The localized development infrastructure will spin up a
-localchain, graph, and postgres. Your local machine must
-have docker and docker compose installed.
+Get a gas report:
 
-### Setup environment variables
-
-You will then need to create a `.env.local` file in the root of the repository with the following environment variables:
-
-```
-# Required
-PLASMIC_PROJECT_ID=
-PLASMIC_PROJECT_API_TOKEN=
-NEXT_PUBLIC_NFT_STORAGE_TOKEN=
-NEXT_PUBLIC_WEB3_STORAGE_TOKEN=
-NEXT_PUBLIC_WALLETCONNECT_ID=
-
-# Optional (used to fund an address on the localchain)
-LOCAL_TESTING_ADDRESS=
+```sh
+forge test --gas-report
 ```
 
-### Starting the local development infrastructure
+#### Analyze storage gaps
 
-Once you have your environment configured you can run the infrastructure like so:
-
-```
-yarn dev:serve-e2e
+```sh
+forge inspect HypercertMinter storageLayout --pretty
 ```
 
-Once everything is done, the dapp will be served from http://127.0.0.1:3000. You will
-need to point your metamask to the localchain at 127.0.0.1:8545 with ChainID 31337.
+#### Clean
 
-## Playbooks
+Delete the build artifacts and cache directories:
 
-For setup and common operations for each subproject, navigate into the respective directory and check out the `README.md`.
+```sh
+forge clean
+```
 
-We also maintain a [playbook](https://hypercerts.org/docs/devops) for larger operations.
+### Hardhat operations
+
+#### Build
+
+```sh
+yarn build:hardhat
+```
+
+#### Deploy
+
+Deployment of the contract to EVM compatible net is managed by
+[OpenZeppelin](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-hardhat-upgrades), primarily because of proxy
+management and safety checks.
+
+```sh
+yarn build:deploy
+yarn hardhat deploy --network goerli
+```
+
+#### Transfer ownership
+
+To transfer ownership of the proxy contract for upgrades, run the following:
+
+```sh
+yarn hardhat transfer-owner-minter --network base-sepolia --proxy PROXY_CONTRACT_ADDRESS --owner NEW_OWNER_ADDRESS
+```
+
+This is typically done to transfer control to a multi-sig (i.e. Gnosis Safe).
+
+#### Validate upgrade
+
+Validate contract upgradeability against deployment.
+
+For example `goerli` deployment:
+
+```sh
+yarn hardhat validate-upgrade --network goerli --proxy PROXY_CONTRACT_ADDRESS
+```
+
+#### Propose Upgrade
+
+Propose an upgrade via OpenZeppelin Defender. For more information, see this
+[guide](https://docs.openzeppelin.com/defender/guide-upgrades)
+
+```sh
+yarn build:hardhat
+yarn hardhat propose-upgrade-minter --network goerli --proxy PROXY_CONTRACT_ADDRESS --multisig OWNER_MULTISIG_ADDRESS
+```
+
+This will output an OpenZeppelin URL that multi-sig members can use to approve/reject the upgrade.
+
+### Other operations
+
+#### Format
+
+Format the contracts with Prettier:
+
+```sh
+yarn prettier
+```
+
+#### Lint
+
+Lint the contracts:
+
+```sh
+yarn lint
+```
+
+## Contracts
+
+### IHypercertToken
+
+This interface is the requirements set for hypercert-compliant tokens. This enables developer to use their own preferred
+token implementation or standard.
+
+### HypercertMinter
+
+Example implementation for a hypercert token that is an `ERC1155 NFT` under the hood with an `Allowlist` extension.
+
+## Deploying to FVM
+
+### Verification
+
+To verify the contracts on Starboard, run the following command:
+
+Minter: `npx hardhat flatten src/protocol/HypercertMinter.sol > FlattenedHypercertMinter.sol` Proxy:
+`npx hardhat flatten lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol > FlattenedProxy.sol`
+
+To validate, upload the flattened file to Filfox using the contact verification flow.
+
+In the `Metadata settings` section, add the following:
+
+`{ "bytecodeHash": "none" }`

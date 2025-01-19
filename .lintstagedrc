@@ -1,7 +1,4 @@
 {
-  "**/*.{js,jsx,ts,tsx,sol}": [
-    "eslint --ignore-path .gitignore --ignore-path .lintstagedignore",
-    "prettier --write"
-  ],
-  "**/*.{md,json}": ["prettier --write"]
+  "*.{js,json,md,ts,yml}": ["prettier --config ./.prettierrc.yml --write"],
+  "*.{sol}": ["forge fmt"]
 }
