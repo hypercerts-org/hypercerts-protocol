@@ -43,21 +43,20 @@ jobs:
         run: |
           echo "1. Current directory structure:"
           ls -la
-          echo "\n2. Submodule status before:"
+          echo "\n2. Content of .gitmodules:"
+          cat .gitmodules
+          echo "\n3. Submodule status before:"
           git submodule status
-          echo "\n3. Initialize submodules:"
+          echo "\n4. Initialize submodules:"
           git submodule update --init --recursive
-          echo "\n4. Submodule status after init:"
+          echo "\n5. Submodule status after init:"
           git submodule status
-          echo "\n5. Entering submodule:"
-          cd lib/openzeppelin-contracts-upgradeable
-          echo "\n6. Remote information:"
-          git remote -v
-          echo "\n7. Available commits:"
-          git log --oneline | head -n 5
-          echo "\n8. Attempting fetch:"
-          git fetch --unshallow || git fetch --all
-          cd ../..
+          echo "\n6. List lib directory:"
+          ls -la lib/
+          echo "\n7. Entering submodule:"
+          cd lib/openzeppelin-contracts-upgradeable || echo "Directory doesn't exist"
+          echo "\n8. Remote information:"
+          git remote -v || echo "Not a git repository"
 
       - name: Checkout and setup submodules
         run: |
