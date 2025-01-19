@@ -54,12 +54,6 @@ jobs:
           echo "\n6. List lib directory:"
           ls -la lib/
           echo "\n7. Entering submodule:"
-          cd lib/openzeppelin-contracts-upgradeable || echo "Directory doesn't exist"
-          echo "\n8. Remote information:"
-          git remote -v || echo "Not a git repository"
-
-      - name: Checkout and setup submodules
-        run: |
           cd lib/openzeppelin-contracts-upgradeable
           git fetch --all --tags --force
           git checkout 2d081f24cac1a867f6f73d512f2022e1fa987854
