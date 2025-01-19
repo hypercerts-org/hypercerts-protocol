@@ -34,6 +34,15 @@ jobs:
         with:
           submodules: "recursive"
 
+      - name: Verify submodules are checked out
+        run: |
+          git submodule status
+          git submodule foreach 'echo Submodule $name checked out to $sha1'
+
+      - name: Ensure all submodules are initialized
+        run: |
+          git submodule foreach --quiet 'test -d "$name" || (echo "Submodule $name is missing!" && exit 1)'
+      
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
 
