@@ -44,7 +44,7 @@ jobs:
           git submodule update --init --recursive
           cd lib/openzeppelin-contracts-upgradeable
           git fetch --all --tags --force
-          git checkout refs/tags/v4.9.6 || git checkout tags/v4.9.6
+          git checkout 2d081f24cac1a867f6f73d512f2022e1fa987854 
           cd ../..
 
       - name: Debug tags
