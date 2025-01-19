@@ -43,6 +43,9 @@ jobs:
           git submodule update --init --recursive --force
           git submodule foreach git fetch --all
           git submodule foreach git reset --hard origin/HEAD
+          cd lib/openzeppelin-contracts-upgradeable
+          git checkout v4.9.6
+          cd ../..
 
       - name: Debug submodules
         run: |
