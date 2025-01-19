@@ -38,6 +38,12 @@ jobs:
         run: |
           cat lib/openzeppelin-contracts-upgradeable/package.json
 
+      - name: Force update submodules
+        run: |
+          git submodule update --init --recursive --force
+          git submodule foreach git fetch --all
+          git submodule foreach git reset --hard origin/HEAD
+
       - name: Debug directory structure
         run: |
           ls -la lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/
