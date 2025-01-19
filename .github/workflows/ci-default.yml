@@ -6,8 +6,14 @@ env:
 
 # Trigger the workflow when:
 on:
-  # A push occurs to one of the matched branches.
+  pull_request:
+    branches:
+      - "main"
+      - "dev"
   push:
+    branches:
+      - "main"
+      - "dev"
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -32,7 +38,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           # Fetch all history so gitlint can check the relevant commits.
           fetch-depth: "0"
+          submodules: "recursive"
+
       - run: corepack enable
+
       - name: Set up Node.js 18
         uses: actions/setup-node@v4
         with:
@@ -40,22 +49,26 @@ jobs:
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
-      - name: Install
+
+      - name: Install dependencies
         run: |
-          pnpm install
+          pnpm i
         # Always run this step so that all linting errors can be seen at once.
         if: always()
-      - name: Build
+
+      - name: Build packages
         run: |
-          pnpm run build
+          pnpm build
         # Always run this step so that all linting errors can be seen at once.
         if: always()
-      - name: Lint
+
+      - name: Lint code
         run: |
-          pnpm run lint
+          pnpm lint
         # Always run this step so that all linting errors can be seen at once.
         if: always()
-      - name: Test
+
+      - name: Test contracts
         run: |
           pnpm test
         # Always run this step so that all linting errors can be seen at once.
