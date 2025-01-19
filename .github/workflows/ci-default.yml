@@ -34,6 +34,14 @@ jobs:
         with:
           submodules: "recursive"
 
+      - name: Log content of lib/openzeppelin-contracts-upgradeable/package.json
+        run: |
+          cat lib/openzeppelin-contracts-upgradeable/package.json
+
+      - name: Log content of lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/MerkleProofUpgradeable.sol
+        run: |
+          cat lib/openzeppelin-contracts-upgradeable/contracts/utils/cryptography/MerkleProofUpgradeable.sol
+
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
 
