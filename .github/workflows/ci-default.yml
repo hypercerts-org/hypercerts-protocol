@@ -55,7 +55,9 @@ jobs:
           ls -la lib/
           echo "\n7. Entering submodule:"
           cd lib/openzeppelin-contracts-upgradeable
+          git remote -v
           git fetch --all --tags --force
+          git tag -l
           git checkout 2d081f24cac1a867f6f73d512f2022e1fa987854
           cd ../..
 
