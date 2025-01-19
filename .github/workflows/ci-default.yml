@@ -3,6 +3,7 @@ name: ci-default
 env:
   INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
   ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+  FOUNDRY_PROFILE: "ci"
 
 # Trigger the workflow when:
 on:
@@ -26,19 +27,15 @@ jobs:
   lint-and-test:
     # NOTE: This name appears in GitHub's Checks API.
     name: test
-    environment: testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Check out pull request's HEAD commit instead of the merge commit to
-          # prevent gitlint from failing due to too long commit message titles,
-          # e.g. "Merge 3e621938d65caaa67f8e35d145335d889d470fc8 into 19a39b2f66cd7a165082d1486b2f1eb36ec2354a".
-          ref: ${{ github.event.pull_request.head.sha }}
-          # Fetch all history so gitlint can check the relevant commits.
-          fetch-depth: "0"
-          submodules: "true"
+          submodules: "recursive"
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
 
       - run: corepack enable
 
@@ -46,9 +43,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: "pnpm"
-
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
 
       - name: Install dependencies
         run: |
