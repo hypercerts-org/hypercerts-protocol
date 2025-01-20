@@ -108,6 +108,11 @@ const NETWORK_CONFIGS: Record<keyof typeof chainIds, NetworkConfig> = {
     adminAccount: "0x14ae502FEF3843fF3a1735B3209D39B320130af9",
     feeRecipient: "0xE7C4531ad8828794904D332a12702beC8ff1A498",
   },
+  "filecoin-mainnet": {
+    tokens: [],
+    adminAccount: "0xee849dAf7A549DC0Fd89658F570d21b61ae88bf8",
+    feeRecipient: "0xF2403Fdb4cEb27Be833153d8c4f5885a81c3a7B4",
+  },
 };
 
 // Helper function to get network config
