@@ -6,7 +6,6 @@ import "@nomicfoundation/hardhat-viem";
 import "@openzeppelin/hardhat-upgrades";
 import "@typechain/hardhat";
 import "@nomicfoundation/hardhat-ethers";
-import "@starboardventures/hardhat-verify";
 
 import "@primitivefi/hardhat-dodoc";
 import { config as dotenvConfig } from "dotenv";
@@ -14,8 +13,6 @@ import fs from "fs";
 import "hardhat-abi-exporter";
 import "hardhat-preprocessor";
 import { resolve } from "path";
-
-import "xdeployer";
 
 import "./tasks";
 import { chainIds, getChainStrategy, getEtherscanConfigs, getCustomChains } from "./config/ChainConfig";
