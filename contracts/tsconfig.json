@@ -17,7 +17,7 @@
     "target": "ES2022",
     "outDir": "dist"
   },
-  "include": ["./tasks", "./test", "./src", "./hardhat.config.cjs", "./types", "./utils"],
+  "include": ["./tasks", "./test", "./src", "./hardhat.config.cjs", "./types", "./utils", "./config"],
   "ts-node": {
     "experimentalResolver": true,
     "files": true
