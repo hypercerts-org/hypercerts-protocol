@@ -32,7 +32,7 @@ task("deploy-minter", "Deploy contracts and verify")
     }
 
     if (network.name !== "hardhat" && network.name !== "localhost") {
-      if (network.name !== "filecoinCalibration") {
+      if (!network.name.startsWith("filecoin")) {
         try {
           const code = await hypercertMinter.instance?.provider.getCode(address);
           if (code === "0x") {
@@ -50,7 +50,7 @@ task("deploy-minter", "Deploy contracts and verify")
           }
           console.error(errorMessage);
         }
-      } else if (network.name === "filecoinCalibration") {
+      } else {
         try {
           const code = await hypercertMinter.instance?.provider.getCode(address);
           if (code === "0x") {
@@ -67,8 +67,6 @@ task("deploy-minter", "Deploy contracts and verify")
           }
           console.error(errorMessage);
         }
-      } else {
-        console.log("No verification for this network");
       }
     }
   });
