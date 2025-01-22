@@ -30,5 +30,9 @@
   "314159": {
     "HypercertMinterUUPS": "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07",
     "HypercertMinterImplementation": "0xc6FbcFE16D5eBFEd21aCe224C49C94dE49046A04"
+  },
+  "314": {
+    "HypercertMinterUUPS": "0xc756B203cA9e13BAB3a93F1dA756bb19ac3C395b",
+    "HypercertMinterImplementation": "0xC2d179166bc9dbB00A03686a5b17eCe2224c2704 "
   }
 }
