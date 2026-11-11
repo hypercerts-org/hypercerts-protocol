@@ -1,7 +1,13 @@
-# hypercerts [![License: Apache 2.0][license-badge]][license] [![Github Actions][gha-badge]][gha]
+# Hypercerts protocol (archived) [![License: MIT OR Apache-2.0][license-badge]][license] [![Github Actions][gha-badge]][gha]
 
-[license]: https://opensource.org/license/apache-2-0/
-[license-badge]: https://img.shields.io/badge/License-Apache2.0-blue.svg
+> [!IMPORTANT]
+> This repository is archived and no longer maintained. It holds the Hypercerts v1 smart contracts: the HypercertMinter and the marketplace (HypercertsExchange, adapted from LooksRare's exchange v2), with their deployment addresses and audits. The contracts stay deployed on-chain, and hypercerts minted with them still exist in the wallets that hold them. The repository stays public as the record of the contracts.
+
+- Hypercerts has reached v2, and the v1 app has been retired. See [hypercerts.org/v1-retired](https://hypercerts.org/v1-retired).
+- For Hypercerts v2, see [hypercerts.org](https://hypercerts.org) and the [documentation](https://docs.hypercerts.org).
+
+[license]: LICENSE
+[license-badge]: https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg
 [gha]: https://github.com/hypercerts-org/hypercerts/actions/workflows/ci-default.yml
 [gha-badge]: https://github.com/hypercerts-org/hypercerts/actions/workflows/ci-default.yml/badge.svg
 
